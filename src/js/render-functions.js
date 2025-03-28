@@ -8,7 +8,7 @@ const lightbox = new SimpleLightbox(".gallery a", {
 });
 
 /**
- * Очищує галерею перед новим запитом
+ * Очищує галерею перед новим пошуком
  */
 export function clearGallery() {
     gallery.innerHTML = "";
@@ -27,7 +27,7 @@ export function displayImages(images) {
                 <img 
                     src="${image.webformatURL}" 
                     alt="${image.tags}" 
-                    data-source="${image.largeImageURL}" 
+                    loading="lazy"
                 />
             </a>
             <div class="image-info">
@@ -40,8 +40,6 @@ export function displayImages(images) {
         )
         .join("");
 
-    gallery.innerHTML = markup;
-
-    // Оновлюємо існуючий екземпляр SimpleLightbox
+    gallery.insertAdjacentHTML("beforeend", markup);
     lightbox.refresh();
 }
