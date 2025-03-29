@@ -18,28 +18,24 @@ export function clearGallery() {
  * Відображає зображення в галереї
  * @param {Array} images - масив зображень
  */
-export function displayImages(images) {
-    const markup = images
-        .map(
-            (image) => `
-        <li class="img-card">
-            <a href="${image.largeImageURL}">
-                <img 
-                    src="${image.webformatURL}" 
-                    alt="${image.tags}" 
-                    loading="lazy"
-                />
-            </a>
-            <div class="image-info">
-                <p><strong>Likes:</strong> ${image.likes}</p>
-                <p><strong>Views:</strong> ${image.views}</p>
-                <p><strong>Comments:</strong> ${image.comments}</p>
-                <p><strong>Downloads:</strong> ${image.downloads}</p>
-            </div>
-        </li>`
-        )
-        .join("");
+export function renderImages(images) {
+  const markup = images
+    .map(
+      ({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => `
+      <li class="img-card">
+        <a href="${largeImageURL}" target="_blank">
+          <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+        </a>
+        <div class="image-info">
+          <p>❤️ Likes: <strong>${likes}</strong></p>
+          <p>👁 Views: <strong>${views}</strong></p>
+          <p>💬 Comments: <strong>${comments}</strong></p>
+          <p>⬇ Downloads: <strong>${downloads}</strong></p>
+        </div>
+      </li>`
+    )
+    .join('');
 
-    gallery.insertAdjacentHTML("beforeend", markup);
-    lightbox.refresh();
+  gallery.insertAdjacentHTML('beforeend', markup);
+  lightbox.refresh();
 }

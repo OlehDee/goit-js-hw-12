@@ -10,21 +10,26 @@ const URL = "https://pixabay.com/api/";
  * @param {number} perPage - кількість результатів на сторінку
  * @returns {Promise<{images: Array, totalHits: number}>}
  */
-export async function axiosImages(query, page, perPage) {
-    const response = await axios.get(URL, {
-        params: {
-            key: API_KEY,
-            q: query,
-            image_type: "photo",
-            orientation: "horizontal",
-            safesearch: "true",
-            page,
-            per_page: perPage,
-        },
-    });
+export async function fetchImages(query, page = 1, perPage = 40) {
+    try {
+        const response = await axios.get(URL, {
+            params: {
+                key: API_KEY,
+                q: query,
+                image_type: "photo",
+                orientation: "horizontal",
+                safesearch: "true",
+                page,
+                per_page: perPage,
+            },
+        });
 
-    return {
-        images: response.data.hits,
-        totalHits: response.data.totalHits,
-    };
+        return {
+            images: response.data.hits,
+            totalHits: response.data.totalHits,
+        };
+    } catch (error) {
+        console.error("Error fetching images:", error);
+        throw error;
+    }
 }
